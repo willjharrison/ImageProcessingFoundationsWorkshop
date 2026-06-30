@@ -2,9 +2,9 @@ clear
 close all
 clc
 
-imageOrFrequency = 1; % 0 for image, 1 for frequency
+imageOrFrequency = 0; % 0 for image, 1 for frequency
 showImages = 1;
-noiseProp = .5; % noise SD is prop of image range
+noiseProp = 0; % noise SD is prop of image range
 
 % find and load an image
 imFolder = 'exampleImages/dog/';
@@ -22,13 +22,17 @@ im = double(im)/255;
 imSize = length(im); % assumes square im
 im = im + randn(imSize)*noiseProp; % add noise
 
+if showImages
+    figure;
+    imshow(im,[])
+end
 %% DoG filter design
 % not to be confused with a derivative-of-Gaussian (or "dog" for short), or
 % the appropriate filters to simulate canine vision, this DoG stands for
 % difference-of-Gaussian, which is how we produce the "mexican hat"
 % isotropic filter for edges
 
-excitatorySD = 2; % px
+excitatorySD = 4; % px
 inhibitorySD = excitatorySD*1.6; % 1.6 by convention, but can be arbitrary
 innerGauss = Gaussian2D(excitatorySD, imSize/2, imSize);
 innerGauss = innerGauss/sum(innerGauss(:)); 
@@ -46,6 +50,7 @@ if showImages
     imshow([zoomDG/2 + .5 log(abs(fftshift(fft2(zoomDG))))])
 end
 
+%% filtering
 if imageOrFrequency == 0 
     Rdog = conv2(im,dogFilter,'same');
 else

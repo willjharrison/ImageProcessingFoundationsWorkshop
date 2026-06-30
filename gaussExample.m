@@ -4,8 +4,8 @@ clc
 
 imageOrFrequency = 0; % 0 for image, 1 for frequency
 noiseProp = .25; % noise SD is prop of image range
-showImages = 1;
-showFreq = 1; % set this to 1 to also show fourier spectra
+showImages = 1; % displays figures as we go
+showFreq = 0; % set this to 1 to also show fourier spectra
 
 
 % find and load an image
@@ -27,6 +27,10 @@ im = im / max(im(:));
 imSize = length(im); % assumes square im
 
 im = im + randn(imSize)*noiseProp;
+
+if showImages
+    imshow(im,[])
+end
 
 %% Gauss filter design
 % A gaussian filter is just a weighted average. The size of the filter

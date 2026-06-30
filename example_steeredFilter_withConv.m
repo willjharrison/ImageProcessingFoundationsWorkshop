@@ -2,7 +2,7 @@ clear
 close all
 clc
 
-imageOrFrequency = 1; % 0 for image, 1 for frequency
+imageOrFrequency = 0; % 0 for image, 1 for frequency
 showImages = 1;
 noiseProp = .025; % noise SD is prop of image range
 sd = 8; % SD of the gaussian from which the derivate is computed
@@ -139,7 +139,7 @@ magIm = magOut(:,:,1).*mask;
 % so we don't keep finding the same image location each draw, we will
 % remove each chosen location after we draw it, by placing an inverse
 % Gaussian at the chosen location.
-gaussLoc = @(pos) 1 - Gaussian2D(sd, pos, imSize);
+gaussLoc = @(pos) 1 - Gaussian2D(sd*1.6, pos, imSize);
 
 nFilts = 500;
 
